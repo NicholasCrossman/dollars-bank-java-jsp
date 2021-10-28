@@ -1,5 +1,7 @@
 package com.cognixia.jump.model;
 
+import java.util.ArrayList;
+
 public class Account {
 
     private String name;
@@ -7,13 +9,19 @@ public class Account {
     private String address;
     private int accountId;
     private String password;
+    private double balance;
+    private ArrayList<Transaction> transactions;
 
-    public Account(String name, String email, String address, int accountId, String password) {
+    public Account(String name, String email, String address, int accountId, String password, double balance) {
         this.name = name;
         this.email = email;
         this.address = address;
         this.accountId = accountId;
         this.password = password;
+        this.balance = balance;
+        this.transactions = new ArrayList<>();
+        Transaction initialBalance = new Transaction(0.0, balance, "Initial Balance");
+        this.transactions.add(initialBalance);
     }
     
     public String getName() {
@@ -56,6 +64,23 @@ public class Account {
         this.password = password;
     }
 
+
+    public double getBalance() {
+        return this.balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public ArrayList<Transaction> getTransactions() {
+        return this.transactions;
+    }
+
+    public void setTransactions(ArrayList<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -64,7 +89,8 @@ public class Account {
             ", address='" + getAddress() + "'" +
             ", accountId='" + getAccountId() + "'" +
             ", password='" + getPassword() + "'" +
+            ", balance='" + getBalance() + "'" +
+            ", transactions='" + getTransactions() + "'" +
             "}";
     }
-
 }
