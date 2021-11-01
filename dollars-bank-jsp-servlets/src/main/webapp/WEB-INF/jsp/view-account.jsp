@@ -13,17 +13,21 @@
         <table>
             <thead>
                 <tr>
-                    <th>ISBN</th>
-                    <th>Name</th>
-                    <th>Author</th>
+                    <th>Date</th>
+                    <th>Message</th>
+                    <th>Amount</th>
+                    <th>Balance Before</th>
+                    <th>New Balance</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${books}" var="book">
+                <c:forEach items="${account.transactions}" var="transaction">
                     <tr>
-                        <td>${book.isbn}</td>
-                        <td>${book.name}</td>
-                        <td>${book.author}</td>
+                        <td>${transaction.date}</td>
+                        <td>${transaction.message}</td>
+                        <td>${transaction.amount}</td>
+                        <td>${transaction.prevBalance}</td>
+                        <td>${transaction.newBalance}</td>
                     </tr>
                 </c:forEach>
             </tbody>

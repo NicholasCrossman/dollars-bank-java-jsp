@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import com.cognixia.jump.model.Account;
 
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AccountService {
     
     private Account currentAccount;

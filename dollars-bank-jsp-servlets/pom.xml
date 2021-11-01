@@ -6,6 +6,7 @@
 
   <groupId>com.cognixia.jump</groupId>
   <artifactId>dollars-bank-jsp-servlets</artifactId>
+  <packaging>war</packaging>
   <version>1.0</version>
 
   <name>dollars-bank-jsp-servlets</name>

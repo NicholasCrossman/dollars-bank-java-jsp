@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-@SpringBootApplication(scanBasePackages = "com.baeldung.boot.jsp")
+@SpringBootApplication(scanBasePackages = "com.cognixia.jump")
 public class SpringBootJspApplication extends SpringBootServletInitializer {
 
     @Override
