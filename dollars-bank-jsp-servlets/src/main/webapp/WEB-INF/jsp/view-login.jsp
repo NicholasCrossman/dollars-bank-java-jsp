@@ -7,14 +7,18 @@
         <link href="<c:url value="/css/common.css"/>" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <c:if test="${loginFailure}">
-            <div>Username or password is incorrect.</div>
-        </c:if>
-    
-        <form:form action="login" method="post" modelAttribute="login">
-            <form:label path="email">Email: </form:label> <form:input type="email" path="email"/>
-            <form:label path="password">Password: </form:label> <form:input type="password" path="password"/>
-            <input type="submit" value="submit"/>
-        </form:form>
+        <div class="loginDiv">
+            <c:if test="${loginFailure}">
+                <div>Username or password is incorrect.</div>
+            </c:if>
+        
+            <form:form action="login" method="post" modelAttribute="login">
+                <form:label path="email">Email: </form:label> <form:input type="email" path="email"/>
+                <form:label path="password">Password: </form:label> <form:input type="password" path="password"/>
+                <input type="submit" class="button" value="submit"/>
+            </form:form>
+
+            <a href="/register">Register</a>
+        </div>       
     </body>
 </html>

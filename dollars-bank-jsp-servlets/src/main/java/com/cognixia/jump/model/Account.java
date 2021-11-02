@@ -12,6 +12,15 @@ public class Account {
     private double balance;
     private ArrayList<Transaction> transactions;
 
+    public Account() {
+        this.name = "";
+        this.email = "";
+        this.address = "";
+        this.accountId = -1;
+        this.password = "";
+        this.balance = 0.0;
+    }
+    
     public Account(String name, String email, String address, int accountId, String password, double balance) {
         this.name = name;
         this.email = email;

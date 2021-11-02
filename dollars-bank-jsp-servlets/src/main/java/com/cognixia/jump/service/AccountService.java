@@ -25,6 +25,17 @@ public class AccountService {
         return currentAccount;
     }
 
+    public ArrayList<Account> getAllAccounts() {
+        ArrayList<Account> returnAccounts = new ArrayList<>();
+        for(int i=0; i < accounts.size(); i++) {
+            // if this account isn't the current account, add it to the return
+            if(this.currentAccount.getAccountId() != accounts.get(i).getAccountId()) {
+                returnAccounts.add(accounts.get(i));
+            }
+        }
+        return returnAccounts;
+    }
+
     public boolean login(String email, String password) {
         if(!emailExists(email)) {
             // the email is incorrect
@@ -120,6 +131,16 @@ public class AccountService {
         return null;
     }
 
+    private Account getAccountById(int id) {
+        for(int i = 0; i < accounts.size(); i++) {
+            Account next = accounts.get(i);
+            if(next.getAccountId() == id) {
+                return next;
+            }
+        }
+        return null;
+    }
+
     public Transaction deposit(double amount) {
         // if the currentAccount is null, return null
         if(currentAccount == null) {
@@ -171,9 +192,36 @@ public class AccountService {
         ArrayList<Transaction> returnTransactions = new ArrayList<>();
         int endIndex = transactions.size() - 1;
 
-        for(int i = endIndex; i >= endIndex - 5; i--) {
+        for(int i = endIndex; i > endIndex - 5; i--) {
             returnTransactions.add(transactions.get(i));
         }
         return returnTransactions;
+    }
+
+    public Transaction transfer(int targetAccountId, double amount) {
+        // if the currentAccount is null, return null
+        if(currentAccount == null) {
+            return null;
+        }
+        // the amount must be positive
+        if(amount < 0) {
+            // if the amount is negative, convert it to a positive value
+            amount *= -1.0;
+        }
+        // if the amount is zero, cancel the transfer
+        if(amount == 0.0) {
+            return null;
+        }
+        // get the target account
+        Account target = getAccountById(targetAccountId);
+        // get the money from the current account
+        // if this is an overdraft, this will return null
+        Transaction source = transaction(currentAccount.getEmail(), amount * -1, "Transfer to " + target.getName());
+        if(source == null) {
+            // cancel the transfer. The current account has insufficient funds.
+            return null;
+        }
+        Transaction destination = transaction(target.getEmail(), amount, "Transfer from " + currentAccount.getName());
+        return destination;
     }
 }

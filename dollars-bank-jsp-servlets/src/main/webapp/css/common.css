@@ -1,22 +1,145 @@
-label {
-    display: inline-block;
-    width: 200px;
-    margin: 5px;
-    text-align: left;
+* {
+    box-sizing: border-box;
 }
-input[type=text], input[type=password], select {
-    width: 200px;  
+
+body {
+  background-color: #f2f2f2;
+  font-style: Georgia, Times, serif;
+  font-weight: normal;
+  width: 75%;
+  margin: auto;
 }
-input[type=radio] {
+
+.loginDiv {
+    width: 60%;
     display: inline-block;
-    margin-left: 45px;
+    margin: auto;
+    text-align: center;
 }
-input[type=checkbox] {
-    display: inline-block;
-    margin-right: 190px;
-}  
- 
-button {
+
+input[type=text] {
+    width: 60%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+/* Create two unequal columns that float next to each other */
+.column {
+    float: left;
     padding: 10px;
-    margin: 10px;
+}
+
+/* Right column */
+.column.side {
+    width: 25%;
+}
+
+/* Middle column */
+.column.middle {
+    width: 75%;
+}
+
+/* Posts */
+.postListing {
+    background-color: #e3e3e3
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+h1 {
+  background-color: #f2f2f2;
+  font-size: 2.5em;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #4ce534;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px; /*15-32px*/
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px; /*Original is 16px*/
+}
+
+.button:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+li {
+    float: left;
+    border-right: 1px solid #bbb;
+}
+
+li:last-child {
+    border-right: none;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+a:link {
+    color: blue;
+    font-size: 1em; /*1.5em*/
+    padding: 0.625em 1em; /*14px , 25px*/
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+a:visited {
+    color: purple;
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 50%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* alternating table rows have slightly different color to improve readability */
+tr:nth-child(even) {
+    background-color: #e6e6e6; /* darker grey */
 }

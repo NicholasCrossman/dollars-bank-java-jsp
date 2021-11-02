@@ -6,10 +6,21 @@
         <link href="<c:url value="/css/common.css"/>" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <h4>Name: ${account.name}</h4>
-        <h4>Email: ${account.email}</h4>
-        <h4>Account ID: ${account.accountId}</h4>
-        <h4>Name: ${account.name}</h4>
+        <h2>Name: ${account.name}</h2>
+        <h2>Email: ${account.email}</h2>
+        <h2>Account ID: ${account.accountId}</h2>
+        <h2>Balance: ${account.balance}</h2>
+        <br/>
+        <h2>What would you like to do?</h2>
+        <ul>
+            <li><a class="active" href="/account">Home</a></li>
+            <li><a href="/deposit">Make a Deposit</a></li>
+            <li><a href="/withdrawl">Make a Withdrawl</a></li>
+            <li><a href="/transfer">Transfer Funds</a></li>
+            <li><a href="/change-password">Change Your Password</a></li>
+    
+        </ul>
+        <br/>
         <table>
             <thead>
                 <tr>
