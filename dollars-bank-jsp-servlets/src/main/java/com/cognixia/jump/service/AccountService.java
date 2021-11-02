@@ -3,6 +3,7 @@ package com.cognixia.jump.service;
 import java.util.ArrayList;
 
 import com.cognixia.jump.model.Account;
+import com.cognixia.jump.model.Transaction;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
@@ -117,5 +118,62 @@ public class AccountService {
             }
         }
         return null;
+    }
+
+    public Transaction deposit(double amount) {
+        // if the currentAccount is null, return null
+        if(currentAccount == null) {
+            return null;
+        }
+        // the amount must be positive
+        if(amount < 0) {
+            // if the amount is negative, convert it to a positive value
+            amount *= -1.0;
+        }
+        return transaction(currentAccount.getEmail(), amount, "Deposit");
+    }
+
+    public Transaction withdrawl(double amount) {
+        // if the currentAccount is null, return null
+        if(currentAccount == null) {
+            return null;
+        }
+        // the amount must be negative
+        if(amount > 0) {
+            // if the amount is positive, convert it to a negative value
+            amount *= -1.0;
+        }
+        return transaction(currentAccount.getEmail(), amount, "Withdrawl");
+    }
+
+    private Transaction transaction(String email, double amount, String message) {
+        // if the amount is zero, return null
+        if(amount == 0.0) {
+            return null;
+        }
+        Account account = getAccountByEmail(email);
+        if(account == null) {
+            // no account found with that email
+            return null;
+        }
+        // log the transaction and return it if successful
+        return account.transaction(amount, message);
+    }
+
+    public ArrayList<Transaction> lastFiveTransactions() {
+        int numberOfTransactions = currentAccount.getTransactions().size();
+        // if there are 5 or fewer transactions, return them all
+        if(numberOfTransactions <= 5) {
+            return currentAccount.getTransactions();
+        }
+        // otherwise, return only the 5 most recent
+        ArrayList<Transaction> transactions = currentAccount.getTransactions();
+        ArrayList<Transaction> returnTransactions = new ArrayList<>();
+        int endIndex = transactions.size() - 1;
+
+        for(int i = endIndex; i >= endIndex - 5; i--) {
+            returnTransactions.add(transactions.get(i));
+        }
+        return returnTransactions;
     }
 }

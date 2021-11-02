@@ -81,6 +81,19 @@ public class Account {
         this.transactions = transactions;
     }
 
+    public Transaction transaction(double amount, String message) {
+        // make sure an overdraft does not occur
+        if(balance + amount < 0) {
+            return null;
+        }
+        else {
+            Transaction transaction = new Transaction(balance, amount, message);
+            balance += amount; // add or subtract the amount
+            this.transactions.add(transaction);
+            return transaction;
+        }
+    }
+
     @Override
     public String toString() {
         return "{" +
