@@ -16,10 +16,28 @@ public class AccountService {
     public AccountService() {
         this.currentAccount = null;
         this.accounts = new ArrayList<>();
+        Account test = new Account("Test", "test@gmail.com", "1234 3rd Street", 12345, "test", 50.00);
+        this.accounts.add(test);
     }
 
     public Account getCurrentAccount() {
         return currentAccount;
+    }
+
+    public boolean login(String email, String password) {
+        if(!emailExists(email)) {
+            // the email is incorrect
+            return false;
+        }
+        Account account = getAccountByEmail(email);
+        // check if the password is a match
+        if(account.getPassword().equals(password)) {
+            this.currentAccount = account;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -77,7 +95,7 @@ public class AccountService {
     }
 
     /**
-     * Used during new Account creation check if the user's email is unique.
+     * Used during new Account creation and login to check if the user's email exists.
      * @param email String - The integer ID to be checked.
      * @return boolean - True if an email is found, and false otherwise.
      */
@@ -89,5 +107,15 @@ public class AccountService {
             }
         }
         return false;
+    }
+
+    private Account getAccountByEmail(String email) {
+        for(int i = 0; i < accounts.size(); i++) {
+            Account next = accounts.get(i);
+            if(next.getEmail().equals(email)) {
+                return next;
+            }
+        }
+        return null;
     }
 }
