@@ -21,10 +21,19 @@ public class AccountService {
         this.accounts.add(test);
     }
 
+    /**
+     * Returns the current account. This will be null if the user is not logged in.
+     * @return Account - The currently logged in account, or null if the user is not logged in.
+     */
     public Account getCurrentAccount() {
         return currentAccount;
     }
 
+    /**
+     * Returns all accounts except the current account. This is used to show possible 
+     * destinations for a funds transfer.
+     * @return ArrayList<Account> - A collection of all accounts but the logged in account.
+     */
     public ArrayList<Account> getAllAccounts() {
         ArrayList<Account> returnAccounts = new ArrayList<>();
         for(int i=0; i < accounts.size(); i++) {
@@ -36,6 +45,14 @@ public class AccountService {
         return returnAccounts;
     }
 
+    /**
+     * Allows the user to log in. Accepts an email and password, returning true if the login 
+     * succeeds and false if it fails. Success will set the current account to the one with this 
+     * email address.
+     * @param email String - The user's unique email.
+     * @param password String - The user's password.
+     * @return boolean - True if the login succeeds, and false otherwise.
+     */
     public boolean login(String email, String password) {
         if(!emailExists(email)) {
             // the email is incorrect
@@ -121,6 +138,12 @@ public class AccountService {
         return false;
     }
 
+    /**
+     * Returns an account by its unique email. Returns null if no account 
+     * is found.
+     * @param email String - The account's unique email.
+     * @return Account - The account with this email, or null if no account is found.
+     */
     private Account getAccountByEmail(String email) {
         for(int i = 0; i < accounts.size(); i++) {
             Account next = accounts.get(i);
@@ -131,6 +154,12 @@ public class AccountService {
         return null;
     }
 
+    /**
+     * Returns an account by its unique ID. Returns null if no account 
+     * is found.
+     * @param id int - The account's unique integer ID.
+     * @return Account - The account with this email, or null if no account is found.
+     */
     private Account getAccountById(int id) {
         for(int i = 0; i < accounts.size(); i++) {
             Account next = accounts.get(i);
@@ -141,6 +170,13 @@ public class AccountService {
         return null;
     }
 
+    /**
+     * Performs a deposit on the current account. Accepts a double as the amount. 
+     * Returns the Transaction on success, or null if no user is logged in. If a 
+     * negative amount is entered, it will be converted to a positive amount.
+     * @param amount double - The amount to be deposited.
+     * @return Transaction - The resulting Transaction on success, or null on failure.
+     */
     public Transaction deposit(double amount) {
         // if the currentAccount is null, return null
         if(currentAccount == null) {
@@ -154,6 +190,13 @@ public class AccountService {
         return transaction(currentAccount.getEmail(), amount, "Deposit");
     }
 
+    /**
+     * Performs a withdrawl on the current account. Accepts a double as the amount. 
+     * Returns the Transaction on success, or null if no user is logged in or an overdraft 
+     * occurs. If a positive amount is entered, it will be converted to a negative amount.
+     * @param amount double - The amount to be withdrawn.
+     * @return Transaction - The resulting Transaction on success, or null on failure.
+     */
     public Transaction withdrawl(double amount) {
         // if the currentAccount is null, return null
         if(currentAccount == null) {
@@ -167,6 +210,17 @@ public class AccountService {
         return transaction(currentAccount.getEmail(), amount, "Withdrawl");
     }
 
+
+    /**
+     * Logs a transaction for the account identified by its email. Accepts a double amount 
+     * and a message string to help identify the transaction's purpose. Returns null if the amount 
+     * is zero or no account is found. A positive amount is a deposit, while a negative amount is a 
+     * withdrawl.
+     * @param email String - The account's unique email.
+     * @param amount double - The amount of the transaction, positive or negative.
+     * @param message String - A message to identify the transaction.
+     * @return Transaction - The Transaction in the target account on success, and null on failure.
+     */
     private Transaction transaction(String email, double amount, String message) {
         // if the amount is zero, return null
         if(amount == 0.0) {
@@ -181,6 +235,11 @@ public class AccountService {
         return account.transaction(amount, message);
     }
 
+    /**
+     * Returns the last five transactions for the current account. If fewer than five 
+     * exist, then all of them are returned.
+     * @return ArrayList<Transaction> - The last five Transactions, or fewer if there are less than five.
+     */
     public ArrayList<Transaction> lastFiveTransactions() {
         int numberOfTransactions = currentAccount.getTransactions().size();
         // if there are 5 or fewer transactions, return them all
@@ -198,6 +257,15 @@ public class AccountService {
         return returnTransactions;
     }
 
+    /**
+     * Transfers money from the current account to a target account. The money is 
+     * withdrawn from the current account and deposited in the target account. 
+     * A null is returned if an overdraft occurs, or the user is not logged in.
+     * @param targetAccountId int - The integer ID of the target account.
+     * @param amount double - The amount to be transferred.
+     * @return Transaction - The successful Transaction of the destination account 
+     *                      if the operation succeeds, and null if there was an error.
+     */
     public Transaction transfer(int targetAccountId, double amount) {
         // if the currentAccount is null, return null
         if(currentAccount == null) {
