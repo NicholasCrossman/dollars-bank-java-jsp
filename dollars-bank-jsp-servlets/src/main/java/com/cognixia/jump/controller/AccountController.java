@@ -51,7 +51,7 @@ public class AccountController {
     public String logout(Model model) {
         accountService.logout();
         model.addAttribute("logout", true);
-        return "redirect:/view-login";
+        return "redirect:/login";
     }
 
     @GetMapping("/register")
