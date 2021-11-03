@@ -15,6 +15,9 @@
             <c:if test="${loginFailure}">
                 <div>Username or password is incorrect.</div>
             </c:if>
+            <c:if test="${logout}">
+                <div>Logout successful!</div>
+            </c:if>
         
             <form:form action="login" method="post" modelAttribute="login">
                 <form:label path="email">Email: </form:label> <form:input type="email" path="email"/><br><br>

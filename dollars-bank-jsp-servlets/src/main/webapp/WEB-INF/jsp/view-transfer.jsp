@@ -23,6 +23,7 @@
                 <li><a href="/withdrawl">Make a Withdrawl</a></li>
                 <li><a class="active" href="/transfer">Transfer Funds</a></li>
                 <li><a href="/change-password">Change Your Password</a></li>
+                <li><a href="/logout">Logout</a></li>
         
             </ul>
             <br/>

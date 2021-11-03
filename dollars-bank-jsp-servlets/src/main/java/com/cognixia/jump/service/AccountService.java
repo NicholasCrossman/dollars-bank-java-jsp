@@ -70,6 +70,14 @@ public class AccountService {
     }
 
     /**
+     * Lets the user log out. Sets the current account to null, which disables most methods 
+     * in this AccountService.
+     */
+    public void logout() {
+        currentAccount = null;
+    }
+
+    /**
      * Creates a new Account and adds it to the accounts collection. Requires a name, email, 
      * address, password, and initial balance. It will return null if the email is not unique 
      * or the balance is less than 0.

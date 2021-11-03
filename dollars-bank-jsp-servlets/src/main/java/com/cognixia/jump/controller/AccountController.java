@@ -47,6 +47,13 @@ public class AccountController {
         return "view-login";
     }
 
+    @GetMapping("/logout")
+    public String logout(Model model) {
+        accountService.logout();
+        model.addAttribute("logout", true);
+        return "redirect:/view-login";
+    }
+
     @GetMapping("/register")
     public String viewRegister(Model model) {
         Account account = new Account();
@@ -86,6 +93,7 @@ public class AccountController {
     public String viewDeposit(Model model) {
         Amount amount = new Amount();
         model.addAttribute("amount", amount);
+        model.addAttribute("account", accountService.getCurrentAccount());
         return "view-deposit";
     }
 
@@ -96,6 +104,7 @@ public class AccountController {
         // if the transaction is null, the deposit failed
         if(transaction == null) {
             model.addAttribute("amount", new Amount());
+            model.addAttribute("account", accountService.getCurrentAccount());
             model.addAttribute("depositFailure", true);
             return "view-deposit";
         }
@@ -106,6 +115,7 @@ public class AccountController {
     @GetMapping("/withdrawl")
     public String viewWithdrawl(Model model) {
         Amount amount = new Amount();
+        model.addAttribute("account", accountService.getCurrentAccount());
         model.addAttribute("amount", amount);
         return "view-withdrawl";
     }
@@ -117,6 +127,7 @@ public class AccountController {
         // if the transaction is null, the withdrawl failed
         if(transaction == null) {
             model.addAttribute("amount", new Amount());
+            model.addAttribute("account", accountService.getCurrentAccount());
             model.addAttribute("withdrawlFailure", true);
             return "view-withdrawl";
         }
@@ -127,6 +138,7 @@ public class AccountController {
     @GetMapping("/transfer")
     public String viewTransfer(Model model) {
         model.addAttribute("accounts", accountService.getAllAccounts());
+        model.addAttribute("account", accountService.getCurrentAccount());
         TransferRequest transfer = new TransferRequest();
         model.addAttribute("transfer", transfer);
         return "view-transfer";
