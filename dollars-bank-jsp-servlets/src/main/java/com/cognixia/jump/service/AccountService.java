@@ -77,6 +77,20 @@ public class AccountService {
         currentAccount = null;
     }
 
+    public boolean changePassword(String oldPassword, String newPassword) {
+        // make sure currentAccount is not null
+        if(currentAccount == null) {
+            return false;
+        }
+        // make sure the old password matches
+        if(currentAccount.getPassword().equals(oldPassword)) {
+            currentAccount.setPassword(newPassword);
+            return true;
+        }
+        // the old password doesn't match
+        return false;
+    }
+
     /**
      * Creates a new Account and adds it to the accounts collection. Requires a name, email, 
      * address, password, and initial balance. It will return null if the email is not unique 

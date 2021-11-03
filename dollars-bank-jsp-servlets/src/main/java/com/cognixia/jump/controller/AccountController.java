@@ -2,6 +2,7 @@ package com.cognixia.jump.controller;
 
 import com.cognixia.jump.model.Account;
 import com.cognixia.jump.model.Amount;
+import com.cognixia.jump.model.ChangePasswordRequest;
 import com.cognixia.jump.model.Login;
 import com.cognixia.jump.model.Transaction;
 import com.cognixia.jump.model.TransferRequest;
@@ -35,9 +36,7 @@ public class AccountController {
     public String postLogin(@ModelAttribute("login") Login login, Model model) {
         String email = login.getEmail();
         String password = login.getPassword();
-        System.out.println(login.toString());
         if(accountService.login(email, password)) {
-            System.out.println("Login accepted.");
             return "redirect:/account";
         }
         // the login was incorrect. Ask again.
@@ -80,6 +79,38 @@ public class AccountController {
         model.addAttribute("account", account);
         model.addAttribute("registerFailure", true);
         return "view-register";
+    }
+
+    @GetMapping("/change-password")
+    public String viewChangePassword(Model model) {
+        ChangePasswordRequest changePassword = new ChangePasswordRequest();
+        model.addAttribute("changePassword", changePassword);
+        return "view-change-password";
+    }
+
+    @PostMapping("/change-password") 
+    public String postChangePassword(@ModelAttribute("changePassword") ChangePasswordRequest changePassword, 
+                                    Model model) {
+        // confirm the user's old password matches the account
+        boolean login = accountService.login(accountService.getCurrentAccount().getEmail(), changePassword.getOldPassword());
+        if(!login) {
+            // the old password was incorrect
+            model.addAttribute("account", accountService.getCurrentAccount());
+            model.addAttribute("passwordIncorrect", true);
+            return "view-change-password";
+        }
+        // confirm the user typed in the same new password twice
+        boolean match = changePassword.passwordMatch();
+        if(!match) {
+            // the new passwords don't match
+            model.addAttribute("account", accountService.getCurrentAccount());
+            model.addAttribute("doesNotMatch", true);
+            return "view-change-password";
+        }
+        // if it reaches this, then authentication has succeeded
+        // change the user's password
+        accountService.changePassword(changePassword.getOldPassword(), changePassword.getNewPassword());
+        return "redirect:/account";
     }
 
     @GetMapping("/account")
