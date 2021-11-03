@@ -4,6 +4,7 @@ import com.cognixia.jump.model.Account;
 import com.cognixia.jump.model.Amount;
 import com.cognixia.jump.model.Login;
 import com.cognixia.jump.model.Transaction;
+import com.cognixia.jump.model.TransferRequest;
 import com.cognixia.jump.service.AccountService;
 
 import org.springframework.stereotype.Controller;
@@ -77,6 +78,7 @@ public class AccountController {
     @GetMapping("/account")
     public String viewAccount(Model model) {
         model.addAttribute("account", accountService.getCurrentAccount());
+        model.addAttribute("transactions", accountService.lastFiveTransactions());
         return "view-account";
     }
 
@@ -119,6 +121,49 @@ public class AccountController {
             return "view-withdrawl";
         }
         // if it reaches this, the withdrawl succeeded. Return to the account screen.
+        return "redirect:/account";
+    }
+
+    @GetMapping("/transfer")
+    public String viewTransfer(Model model) {
+        model.addAttribute("accounts", accountService.getAllAccounts());
+        TransferRequest transfer = new TransferRequest();
+        model.addAttribute("transfer", transfer);
+        return "view-transfer";
+    }
+
+    @PostMapping("/transfer")
+    public String postTransfer(@ModelAttribute("transfer") TransferRequest transfer, Model model) {
+        int targetId = transfer.getTargetId();
+        double amount = transfer.getAmount();
+        // if no ID is selected, targetId will be -1
+        // ask for a selection again
+        if(targetId == -1) {
+            model.addAttribute("account", accountService.getCurrentAccount());
+            model.addAttribute("accounts", accountService.getAllAccounts());
+            model.addAttribute("transfer", new TransferRequest());
+            model.addAttribute("noTarget", true);
+            return "view-transfer";
+        }
+        // if the amount is negative or zero, ask for another input
+        if(amount <= 0.0) {
+            model.addAttribute("account", accountService.getCurrentAccount());
+            model.addAttribute("accounts", accountService.getAllAccounts());
+            model.addAttribute("transfer", new TransferRequest());
+            model.addAttribute("amountNegative", true);
+            return "view-transfer";
+        }
+        Transaction trans = accountService.transfer(targetId, amount);
+        // if this returns null, there was an overdraft
+        if(trans == null) {
+            model.addAttribute("account", accountService.getCurrentAccount());
+            model.addAttribute("accounts", accountService.getAllAccounts());
+            model.addAttribute("transfer", new TransferRequest());
+            model.addAttribute("overdraft", true);
+            return "view-transfer";
+        }
+        // if it reaches this, the transaction was a success
+        // return to the main account page
         return "redirect:/account";
     }
 }

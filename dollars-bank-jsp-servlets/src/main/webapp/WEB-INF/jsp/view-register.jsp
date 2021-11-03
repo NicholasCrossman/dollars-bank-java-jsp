@@ -7,7 +7,7 @@
         <link href="<c:url value="/css/common.css"/>" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <div class="loginDiv">
+        <div class="content">
             <c:if test="${registerFailure}">
                 <div>That email is already in use.</div>
             </c:if>

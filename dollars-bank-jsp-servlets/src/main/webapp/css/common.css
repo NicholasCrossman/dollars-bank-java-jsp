@@ -2,22 +2,29 @@
     box-sizing: border-box;
 }
 
+html {
+    background-color: #b89e2b85;
+}
+
 body {
   background-color: #f2f2f2;
+  display: flex;
   font-style: Georgia, Times, serif;
   font-weight: normal;
-  width: 75%;
-  margin: auto;
+  justify-content: center;
+  width: 80%;
 }
 
-.loginDiv {
-    width: 60%;
-    display: inline-block;
-    margin: auto;
+.content {
     text-align: center;
+    width: 60%;
+    background-color: #f2f2f2;
+    border: #111;
+    border: 1em;
+    padding: 1em;
 }
 
-input[type=text] {
+input {
     width: 60%;
     padding: 12px 20px;
     margin: 8px 0;
